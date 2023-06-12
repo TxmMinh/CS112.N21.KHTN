@@ -1,0 +1,31 @@
+import random
+
+def generate_test_case():
+    t = random.randint(1, 200)  # Số lượng trường hợp thử nghiệm
+
+    test_cases = []
+    for _ in range(t):
+        a = random.randint(1, 1000)  # Giá trị ngẫu nhiên cho a
+        b = random.randint(1, 1000)  # Giá trị ngẫu nhiên cho b
+        test_cases.append((a, b))
+
+    return t, test_cases
+
+def solve(a, b):
+    power_a = pow(a, b)
+    power_b = pow(b, a)
+    result = power_a + power_b
+    return result
+
+# Sinh test case
+t, test_cases = generate_test_case()
+
+# In test case
+print(t)
+for test_case in test_cases:
+    print(test_case[0], test_case[1])
+
+# In kết quả
+for test_case in test_cases:
+    result = solve(test_case[0], test_case[1])
+    print(result)
