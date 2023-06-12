@@ -1,0 +1,66 @@
+import random
+
+def generate_test_case():
+    q = 0
+    test_cases = []
+
+    # 20% số test: q <= 10^5, 1 <= a, b, c <= 10^9, chỉ có truy vấn loại 1
+    if random.random() < 0.2:
+        q = random.randint(1, int(1e5))
+        for _ in range(q):
+            a = random.randint(1, int(1e9))
+            b = random.randint(1, int(1e9))
+            c = random.randint(1, int(1e9))
+            test_cases.append((1, a, b, c))
+    # 20% số test: q <= 10^3, 1 <= a <= 10^4, 1 <= b, c <= 10^2, max(b, c) <= a, chỉ có truy vấn loại 2
+    elif random.random() < 0.2:
+        q = random.randint(1, int(1e3))
+        for _ in range(q):
+            a = random.randint(1, int(1e4))
+            b = random.randint(1, a)
+            c = random.randint(1, a)
+            test_cases.append((2, a, b, c))
+    # 20% số test: q <= 10^5, 1 <= a <= 10^9, 1 <= b, c <= 10^5, max(b, c) <= a
+    elif random.random() < 0.2:
+        q = random.randint(1, int(1e5))
+        for _ in range(q):
+            a = random.randint(1, int(1e9))
+            b = random.randint(1, int(1e5))
+            c = random.randint(1, int(1e5))
+            test_cases.append((random.randint(1, 2), a, b, c))
+    # 40% số test: q <= 10^5, 1 <= a <= 10^18, 1 <= b, c <= 10^12, max(b, c) <= a
+    else:
+        q = random.randint(1, int(1e5))
+        for _ in range(q):
+            a = random.randint(1, int(1e18))
+            b = random.randint(1, int(1e12))
+            c = random.randint(1, int(1e12))
+            test_cases.append((random.randint(1, 2), a, b, c))
+
+    return q, test_cases
+
+def solve(query_type, a, b, c):
+    if query_type == 1:
+        result = (a * b) % c
+    elif query_type == 2:
+        count = 0
+        for x in range(1, a + 1):
+            if (x % b) == (x % c):
+                count += 1
+        result = count
+    return result
+
+# Sinh test case
+q, test_cases = generate_test_case()
+
+# In test case
+print(q)
+for test_case in test_cases:
+    query_type, a, b, c = test_case
+    print(query_type, a, b, c)
+
+# In kết quả
+for test_case in test_cases:
+    query_type, a, b, c = test_case
+    result = solve(query_type, a, b, c)
+    print(result)
