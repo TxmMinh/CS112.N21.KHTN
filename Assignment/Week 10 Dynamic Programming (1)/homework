@@ -1,0 +1,39 @@
+MOD = int(1e9 + 7)
+
+def calculate_combinations(n, k):
+    # Tính toán tổ hợp C(n, k) theo công thức
+    numerator = 1
+    denominator = 1
+
+    for i in range(k):
+        numerator = numerator * (n - i) % MOD
+        denominator = denominator * (i + 1) % MOD
+
+    return (numerator * pow(denominator, MOD - 2, MOD)) % MOD
+
+def calculate_num_plans(n, q, queries):
+    result = []
+    max_k = 3 * n
+
+    # Tạo bảng phương án để tính toán nhanh số kế sách
+    plans = [0] * (max_k + 1)
+    plans[0] = 1
+
+    for i in range(1, max_k + 1):
+        plans[i] = (plans[i - 1] * 2) % MOD
+
+    for k in queries:
+        num_plans = calculate_combinations(n, k)
+        result.append((plans[k] * num_plans) % MOD)
+
+    return result
+
+# Đọc input
+n, q = map(int, input().split())
+queries = list(map(int, input().split()))
+
+# Tính số kế sách cho từng truy vấn
+result = calculate_num_plans(n, q, queries)
+
+# In kết quả
+print(*result)
